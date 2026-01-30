@@ -1,0 +1,42 @@
+<section class="signup">
+  <h1>Signup</h1>
+
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <div class="field">
+      <label for="name">Name</label>
+      <input id="name" type="text" formControlName="name" />
+      <span class="error" *ngIf="submitted() && form.controls.name.invalid">Name is required</span>
+    </div>
+
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" />
+      <span class="error" *ngIf="submitted() && form.controls.email.invalid">Valid email is required</span>
+    </div>
+
+    <div class="field">
+      <label for="password">Password</label>
+      <input id="password" type="password" formControlName="password" />
+      <span class="error" *ngIf="submitted() && form.controls.password.invalid">
+        Min length 6 characters
+      </span>
+    </div>
+
+    <div class="field checkbox">
+      <label>
+        <input type="checkbox" formControlName="newsletter" />
+        Subscribe to newsletter
+      </label>
+    </div>
+
+    <div class="actions">
+      <button type="submit">Save</button>
+      <button type="button" (click)="clear()">Clear</button>
+    </div>
+  </form>
+
+  <div class="preview">
+    <h2>Preview</h2>
+    <pre>{{ form.getRawValue() | json }}</pre>
+  </div>
+</section>
