@@ -6,6 +6,8 @@ import { provideStore, provideState } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { metaReducers } from './store/meta-reducers/local-storage';
 import { signupReducer, signupFeatureKey } from './store/signup/signup.reducer';
+import { catalogReducer, catalogFeatureKey } from './store/catalog/catalog.reducer';
+import { configurationReducer, configurationFeatureKey } from './store/configuration/configuration.reducer';
 
 import { routes } from './app.routes';
 
@@ -22,6 +24,8 @@ export const appConfig: ApplicationConfig = {
     // Register the 'signup' feature state under its key:
     // - This makes selectFeature selectors work and aligns with the meta-reducer keys.
     provideState(signupFeatureKey, signupReducer),
+    provideState(catalogFeatureKey, catalogReducer),
+    provideState(configurationFeatureKey, configurationReducer),
     // DevTools for learning/debugging:
     // - maxAge limits the history length to keep memory usage reasonable.
     provideStoreDevtools({ maxAge: 25 })

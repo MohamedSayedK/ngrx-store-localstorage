@@ -1,0 +1,19 @@
+<section class="home">
+  <h1>Products</h1>
+  <div class="grid">
+    @for (p of products(); track p.skuId) {
+      <a
+        class="card"
+        [routerLink]="['/configuration']"
+        [queryParams]="{ skuId: p.skuId }"
+      >
+        <img [src]="p.images[0]" [alt]="p.name" />
+        <div class="info">
+          <h2>{{ p.name }}</h2>
+          <p>\${{ p.price }}</p>
+          <p class="sku">{{ p.skuId }}</p>
+        </div>
+      </a>
+    }
+  </div>
+</section>

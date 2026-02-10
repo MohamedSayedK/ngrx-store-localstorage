@@ -1,0 +1,45 @@
+<section class="config">
+  <div class="product" *ngIf="productSig() as p">
+    <h1>{{ p?.name }}</h1>
+    <p class="sku">SKU: {{ p?.skuId }}</p>
+    <p class="price">\${{ p?.price }}</p>
+    <p class="desc">{{ p?.description }}</p>
+
+    <div class="images">
+      @for (img of p?.images; track img) {
+        <img [src]="img" [alt]="p?.name" />
+      }
+    </div>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" class="contact">
+    <h2>Contact</h2>
+    <div class="field">
+      <label for="fullName">Full Name</label>
+      <input id="fullName" type="text" formControlName="fullName" />
+      <span class="error" *ngIf="submitted() && form.controls.fullName.invalid">Required</span>
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input id="email" type="email" formControlName="email" />
+      <span class="error" *ngIf="submitted() && form.controls.email.invalid">Valid email required</span>
+    </div>
+    <div class="field">
+      <label for="phone">Phone</label>
+      <input id="phone" type="text" formControlName="phone" />
+      <span class="error" *ngIf="submitted() && form.controls.phone.invalid">Required</span>
+    </div>
+    <div class="field">
+      <label for="quantity">Quantity</label>
+      <input id="quantity" type="number" formControlName="quantity" min="1" />
+    </div>
+    <div class="field">
+      <label for="notes">Notes</label>
+      <textarea id="notes" formControlName="notes"></textarea>
+    </div>
+    <div class="actions">
+      <button type="submit">Submit</button>
+      <button type="button" (click)="clear()">Clear</button>
+    </div>
+  </form>
+</section>

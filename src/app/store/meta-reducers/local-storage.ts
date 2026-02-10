@@ -13,15 +13,29 @@ import { localStorageSync } from 'ngrx-store-localstorage';
 export function localStorageSyncReducer<State, A extends Action = Action>(
   reducer: ActionReducer<State, A>
 ): ActionReducer<State, A> {
-  // localStorageSync options explained:
-  // - keys: The feature state keys to persist. Here we persist 'signup' feature state.
-  //         You can also persist only certain properties:
-  //         keys: [{ signup: ['name', 'email', 'newsletter'] }]
-  // - rehydrate: When true, the persisted state is merged back into the store at app start.
-  // - storage: Which storage to use. window.localStorage persists across sessions.
   return localStorageSync({
-    keys: ['signup'],
+    keys: [{ configuration: ['current'] }],
     rehydrate: true,
+    mergeReducer: (state: any, rehydratedState: any) => {
+      let urlSku: string | null = null;
+      try {
+        urlSku = new URL(window.location.href).searchParams.get('skuId');
+      } catch {}
+      const persistedSku: string | null =
+        rehydratedState?.configuration?.current?.skuId ?? null;
+      if (urlSku && persistedSku && urlSku !== persistedSku) {
+        return { ...state, configuration: state?.configuration ?? undefined };
+      }
+      const next = { ...state };
+      if (rehydratedState?.configuration?.current) {
+        next.configuration = {
+          ...(state?.configuration ?? {}),
+          current: rehydratedState.configuration.current,
+        };
+      }
+
+      return next;
+    },
     storage: window.localStorage,
   })(reducer);
 }
